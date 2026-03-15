@@ -34,7 +34,7 @@ Once complete, open tmux, press `Prefix + I` to install tmux plugins, then launc
 tmux
 ```
 
-Press `Prefix + I` (default prefix is `Ctrl+b`) to install tmux plugins on first launch.
+Press `Prefix + I` (prefix is `Ctrl+a`) to install tmux plugins on first launch.
 
 ### Launch Neovim
 
