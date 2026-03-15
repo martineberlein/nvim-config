@@ -1,21 +1,37 @@
 #!/bin/bash
+set -euo pipefail
 
-# 1. System dependencies (Debian/Ubuntu)
-sudo apt update && sudo apt install -y neovim tmux curl git unzip fontconfig build-essential ripgrep fd-find xclip npm nodejs
+OS="$(uname -s)"
 
-# 2. Clone Neovim config
-git clone https://github.com/martineberlein/nvim-config.git ~/.config/nvim
+# 1. System dependencies
+if [ "$OS" = "Linux" ]; then
+    sudo apt update && sudo apt install -y neovim tmux curl git unzip fontconfig build-essential ripgrep fd-find xclip npm nodejs || true
+elif [ "$OS" = "Darwin" ]; then
+    brew install neovim tmux curl git unzip fontconfig ripgrep fd npm node || true
+fi
 
-# 3. Symlink tmux config
+# 2. Symlink tmux config
 ln -sf ~/.config/nvim/.tmux.conf ~/.tmux.conf
 
-# 4. Install TPM (Tmux Plugin Manager)
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# 3. Install TPM (Tmux Plugin Manager)
+if [ ! -d ~/.tmux/plugins/tpm ]; then
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
 
-# 5. Install JetBrains Mono Nerd Font
-mkdir -p ~/.local/share/fonts
-curl -fLo ~/.local/share/fonts/JetBrainsMono.zip https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
-unzip -q -o ~/.local/share/fonts/JetBrainsMono.zip -d ~/.local/share/fonts/
-fc-cache -fv
+# 4. Install JetBrains Mono Nerd Font
+if [ "$OS" = "Darwin" ]; then
+    FONT_DIR=~/Library/Fonts
+else
+    FONT_DIR=~/.local/share/fonts
+fi
+
+mkdir -p "$FONT_DIR"
+curl -fLo "$FONT_DIR/JetBrainsMono.zip" https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+unzip -q -o "$FONT_DIR/JetBrainsMono.zip" -d "$FONT_DIR/"
+rm -f "$FONT_DIR/JetBrainsMono.zip"
+
+if [ "$OS" = "Linux" ]; then
+    fc-cache -fv
+fi
 
 echo "Setup complete! Open tmux, press 'Prefix + I', then launch nvim."
