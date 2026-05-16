@@ -392,7 +392,7 @@ do
   -- vim.cmd.colorscheme 'tokyonight-night'
 
   vim.pack.add { { src = "https://github.com/catppuccin/nvim", name = "catppuccin" } }
-  vim.cmd.colorscheme "catppuccin-nvim"
+  vim.cmd.colorscheme 'catppuccin'
 
 
   -- Highlight todo, notes, etc in comments
@@ -961,7 +961,7 @@ do
   --
   -- require 'kickstart.plugins.debug'
   -- require 'kickstart.plugins.indent_line'
-  -- require 'kickstart.plugins.lint'
+  require 'kickstart.plugins.lint'
   -- require 'kickstart.plugins.autopairs'
   -- require 'kickstart.plugins.neo-tree'
   -- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
